@@ -1,0 +1,234 @@
+#
+# Pauline drives configuration file
+#
+
+# -----------------------------------------------------------------------------
+#
+# To setup a drive you need to set its "Motor on" and "Select" lines.
+#
+# You can use up to 4 Shugart drives or up to 2 PC drives.
+# See the notes if you want to mixup Shugart and PC drives on the same bus.
+#
+# --- Shugart Floppy disk drives ---
+#
+# Shugart drives can have 4 differents select lines and 1 motor line.
+# The motor-on is common to all floppy drive on the same bus.
+#
+# Possible Shugart select lines (one per drive !) :
+# DRIVES_PORT_DS0, DRIVES_PORT_DS1 , DRIVES_PORT_DS2 , DRIVES_PORT_DS3
+#
+# --- PC Floppy disk drives ---
+#
+# PC drives can have 2 differents settings :
+# - Drive "A:"
+# Select Line : DRIVES_PORT_DRVSA
+# Motor  Line : DRIVES_PORT_MOTEA
+#
+# - Drive "B:"
+# Select Line : DRIVES_PORT_DRVSB
+# Motor  Line : DRIVES_PORT_MOTEB
+#
+# --- Notes  ---
+# -> Note 1 :
+# Please note that some pins names are aliased :
+#
+# DRIVES_PORT_DS0, DRIVES_PORT_MOTEA and DRIVES_PORT_PIN10 point to the same pin 10.
+# DRIVES_PORT_DS1, DRIVES_PORT_DRVSB and DRIVES_PORT_PIN12 point to the same pin 12.
+# DRIVES_PORT_DS2, DRIVES_PORT_DRVSA and DRIVES_PORT_PIN14 point to the same pin 14.
+# DRIVES_PORT_MOTON, DRIVES_PORT_MOTEB and DRIVES_PORT_PIN16 point to the same pin 16.
+# DRIVES_PORT_DS3 and DRIVES_PORT_PIN6 point to the same pin 6.
+#
+# -> Note 2 :
+#
+# - PC and Shugart drives installed on the same floppy bus.
+#
+# You can install Shugart and PC drive on the same bus in some conditions to
+# avoid signal conflict :
+#
+# Working case 1 :
+#
+# PC drive as "A:" (DRIVES_PORT_DRVSA + DRIVES_PORT_MOTEA)
+# Shugart drives can be installed on DS1 (DRIVES_PORT_DS1 + DRIVES_PORT_MOTON)
+# and on DS3 (DRIVES_PORT_DS3 + DRIVES_PORT_MOTON).
+#
+# Working case 2 :
+#
+# PC drive as "B:" (DRIVES_PORT_DRVSB + DRIVES_PORT_MOTEB)
+# Shugart drives can be installed on DS0 (DRIVES_PORT_DS0 + DRIVES_PORT_MOTON),
+# on DS2 (DRIVES_PORT_DS2 + DRIVES_PORT_MOTON),
+# and on DS3 (DRIVES_PORT_DS3 + DRIVES_PORT_MOTON).
+#
+# -> Note 3 :
+#
+# - Twisted PC floppy ribbon
+#   A twisted PC floppy ribbon exchange the drive A and drive B select
+#   and motor signals.
+#   You can use Shugart drives with a twisted PC floppy ribbon but remember
+#   that you may have to "mirror" your settings (DS0 become Motor-on,
+#   DS1 become DS2, Motor-on become DS0)
+#   If the drive is behind a twist you can use these aliases to setup it :
+#
+#   Shugart drives:
+#
+#   DRIVES_PORT_DS0_TWISTED_RIBBON
+#   DRIVES_PORT_DS1_TWISTED_RIBBON
+#   DRIVES_PORT_DS2_TWISTED_RIBBON
+#   DRIVES_PORT_MOTON_TWISTED_RIBBON
+#
+#   PC drives:
+#
+#   DRIVES_PORT_DRVSA_TWISTED_RIBBON
+#   DRIVES_PORT_MOTEA_TWISTED_RIBBON
+#
+#   DRIVES_PORT_DRVSB_TWISTED_RIBBON
+#   DRIVES_PORT_MOTEB_TWISTED_RIBBON
+#
+# -----------------------------------------------------------------------------
+
+# Uncomment the following line to enable the Apple Disk II interface mode
+
+# "GENERIC_FLOPPY_INTERFACE"
+# "APPLE_MACINTOSH_FLOPPY_INTERFACE"
+# "APPLE_II_FLOPPY_INTERFACE"
+
+set DRIVES_INTERFACE_MODE "GENERIC_FLOPPY_INTERFACE"
+
+# set ENABLE_APPLE_MODE 1
+
+#
+# Macintosh drive GCR mode
+# 0 -> MFM disks, 1 GCR disks. 
+# (Can be changed on the control web page)
+#
+
+set MACINTOSH_GCR_MODE 0
+
+#
+# Uncomment the following line to disable the sound output.
+#
+
+# set PAULINE_UI_SOUND 0
+
+#
+# Additionnal drive spin up delay when the motor is turned on.
+# (in milli-seconds)
+#
+
+set DRIVE_MOTOR_SPINUP_DELAY 1000
+
+#
+# Delay to wait after the head load
+# (in milli-seconds)
+#
+
+set DRIVE_HEAD_LOAD_DELAY 250
+
+#
+# Delay to wait after the head load
+# (in micro-seconds)
+# Typical minimum values :
+# 3"1/2 -> 2ms (2000)
+# 5"1/4 -> 12ms (12000)
+#
+
+set DRIVE_HEAD_STEP_RATE 24000
+
+set DRIVE_HEAD_SETTLING_TIME 16000
+
+#
+# Step signal width (Shugart drives). 
+# (in micro-seconds)
+#
+
+set DRIVE_STEP_SIGNAL_WIDTH 8
+
+#
+# Apple Phases signal output width
+#
+# DRIVE_STEP_PHASES_STOP_WIDTH timing is used
+# at the last step
+#
+# I recommend to increase the DRIVE_HEAD_SETTLING_TIME value
+# at least to the DRIVE_STEP_PHASES_STOP_WIDTH or more 
+# to be sure that the head is well stabilized.
+#
+
+set DRIVE_STEP_PHASES_WIDTH 14000
+set DRIVE_STEP_PHASES_STOP_WIDTH 36000
+
+#
+# Set the index signal polarity
+# 0 -> Active low (default)
+# 1 -> Active high
+# Usefull if you use a custom index sensor
+#
+
+set DRIVE_INDEX_SIGNAL_POLARITY 0
+
+
+#
+# Drive 0 settings
+#
+
+set DRIVE_0_DESCRIPTION "3.5-inch Floppy drive"
+set DRIVE_0_SELECT_LINE DRIVES_PORT_DS0
+set DRIVE_0_MOTOR_LINE  DRIVES_PORT_MOTON
+set DRIVE_0_MAX_STEPS   82
+
+#set DRIVE_0_X68000_OPTION_SELECT_LINE DRIVES_PORT_X68000_OPTIONSEL0_OUT
+
+#
+# Drive 1 settings
+#
+
+set DRIVE_1_DESCRIPTION   "5.25-inch Floppy drive"
+set DRIVE_1_SELECT_LINE   DRIVES_PORT_DS1
+set DRIVE_1_MOTOR_LINE    DRIVES_PORT_MOTON
+set DRIVE_1_HEADLOAD_LINE DRIVES_PORT_PIN04_OUT
+set DRIVE_1_MAX_STEPS     82
+
+#set DRIVE_1_X68000_OPTION_SELECT_LINE DRIVES_PORT_X68000_OPTIONSEL1_OUT
+
+#
+# Drive 2 settings
+#
+
+set DRIVE_2_DESCRIPTION "5.25-inch Floppy drive"
+set DRIVE_2_SELECT_LINE DRIVES_PORT_DS2
+set DRIVE_2_MOTOR_LINE  DRIVES_PORT_MOTON
+set DRIVE_2_MAX_STEPS   82
+
+#set DRIVE_2_X68000_OPTION_SELECT_LINE DRIVES_PORT_X68000_OPTIONSEL2_OUT
+
+#
+# Drive 3 settings
+#
+
+set DRIVE_3_DESCRIPTION "8-inch Floppy drive"
+set DRIVE_3_SELECT_LINE DRIVES_PORT_DS3
+set DRIVE_3_MOTOR_LINE  DRIVES_PORT_MOTON
+set DRIVE_3_MAX_STEPS   82
+
+#set DRIVE_3_X68000_OPTION_SELECT_LINE DRIVES_PORT_X68000_OPTIONSEL3_OUT
+
+#
+# PC drive settings example
+#
+
+#
+# Drive 0 settings
+#
+
+# set DRIVE_0_DESCRIPTION "3.5-inch Floppy drive"
+# set DRIVE_0_SELECT_LINE DRIVES_PORT_DRVSA
+# set DRIVE_0_MOTOR_LINE  DRIVES_PORT_MOTEA
+# set DRIVE_0_MAX_STEPS   82
+
+#
+# Drive 1 settings
+#
+
+# set DRIVE_1_DESCRIPTION "3.5-inch Floppy drive"
+# set DRIVE_1_SELECT_LINE DRIVES_PORT_DRVSB
+# set DRIVE_1_MOTOR_LINE  DRIVES_PORT_MOTEB
+# set DRIVE_1_MAX_STEPS   82
